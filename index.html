@@ -154,8 +154,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#0d0512;color:#fff;f
 @keyframes shakeB{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 /* CONTRAT */
 #sc{background:linear-gradient(155deg,#0a0500 0%,#140a00 100%);padding:0;justify-content:flex-start}
-.contract-wrap{width:100%;height:100%;display:flex;flex-direction:column;padding-top:38px}
-.contract-scroll{flex:1;overflow-y:auto;padding:10px 16px 0;-webkit-overflow-scrolling:touch}
+.contract-wrap{width:100%;height:100%;display:flex;flex-direction:column;padding-top:38px;min-height:0}
+.contract-scroll{flex:1;overflow-y:scroll;overflow-x:hidden;padding:10px 16px 0;-webkit-overflow-scrolling:touch;touch-action:pan-y;overscroll-behavior:contain}
 .contract-card{background:rgba(255,248,220,.97);border-radius:16px;padding:18px 16px;color:#1a0800}
 .contract-title{text-align:center;font-size:16px;font-weight:900;margin-bottom:4px;color:#5a2000}
 .contract-subtitle{text-align:center;font-size:11px;color:rgba(90,32,0,.6);margin-bottom:14px}
@@ -1021,7 +1021,11 @@ function initFinal(){initHearts('hbg2');confetti();S.win();var el=document.getEl
 window.addEventListener('load',function(){
   loadVoices();if(speechSynthesis.onvoiceschanged!==undefined)speechSynthesis.onvoiceschanged=loadVoices;
   var fb=document.getElementById('femoji');if(fb){fb.addEventListener('touchstart',function(e){e.preventDefault();tapFire()},{passive:false});fb.addEventListener('click',tapFire)}
-  document.addEventListener('touchmove',function(e){e.preventDefault()},{passive:false});
+  document.addEventListener('touchmove',function(e){
+    // Autoriser le scroll naturel dans le contrat
+    var el=e.target;while(el){if(el.id==='contract-scroll'){return}el=el.parentElement}
+    e.preventDefault();
+  },{passive:false});
   document.addEventListener('gesturestart',function(e){e.preventDefault()},{passive:false});
   sto(initWelcome,180);
 });
